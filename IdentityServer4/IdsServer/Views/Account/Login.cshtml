@@ -1,0 +1,16 @@
+﻿
+<div>this is login</div>
+<form method="post" action="/Account/Login">
+    <div>
+        <input type="text" value="" name="Account" autocomplete="off" />
+    </div>
+    <div style="margin-top:10px;">
+        <input type="password" value="" name="Password" autocomplete="off" />
+    </div>
+    <div style="margin-top:10px;">
+        <input type="submit" value="提交" />
+    </div>
+    <div style="margin-top:10px;">
+        <input type="hidden" value="@ViewBag.ReturnUrl" name="ReturnUrl" autocomplete="off" />
+    </div>
+</form>
