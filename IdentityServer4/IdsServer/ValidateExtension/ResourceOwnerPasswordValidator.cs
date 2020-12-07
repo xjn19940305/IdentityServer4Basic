@@ -11,6 +11,7 @@ namespace IdsServer.ValidateExtension
     {
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
+            await Task.Delay(500);
             try
             {
                 var userName = context.UserName;
@@ -29,6 +30,7 @@ namespace IdsServer.ValidateExtension
                    new Claim("sub","123456"),
                    new Claim("ctExt",Guid.NewGuid().ToString("N")),
                    new Claim("typ","Bearer"),
+                   new Claim("Type","Code")
 
              }
                  );

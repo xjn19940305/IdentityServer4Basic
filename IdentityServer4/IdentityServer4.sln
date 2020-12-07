@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdsServer", "IdsServer\IdsServer.csproj", "{04931954-7383-44C2-9C46-87A805B44A5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdsServer", "IdsServer\IdsServer.csproj", "{04931954-7383-44C2-9C46-87A805B44A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplicitClientDemo", "ImplicitClientDemo\ImplicitClientDemo.csproj", "{FD4AD2D0-1F24-41AE-9D11-CFC21A113E4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImplicitClientDemo", "ImplicitClientDemo\ImplicitClientDemo.csproj", "{FD4AD2D0-1F24-41AE-9D11-CFC21A113E4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeDemo", "CodeDemo\CodeDemo.csproj", "{5953416F-7AFE-4EAF-B7C5-5B2ADDC231A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FD4AD2D0-1F24-41AE-9D11-CFC21A113E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD4AD2D0-1F24-41AE-9D11-CFC21A113E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD4AD2D0-1F24-41AE-9D11-CFC21A113E4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5953416F-7AFE-4EAF-B7C5-5B2ADDC231A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5953416F-7AFE-4EAF-B7C5-5B2ADDC231A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5953416F-7AFE-4EAF-B7C5-5B2ADDC231A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5953416F-7AFE-4EAF-B7C5-5B2ADDC231A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

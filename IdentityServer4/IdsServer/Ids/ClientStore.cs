@@ -12,36 +12,18 @@ namespace IdsServer.Ids
     {
         public static List<Client> list = new List<Client>
         {
-        // machine to machine client
             new Client
             {
-                ClientId = "client",
+                ClientId = "ClientDemo",
+                ClientName="ClientDemo",
                 ClientSecrets = { new Secret("secret".Sha256()) },
-
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                // scopes that client has access to
-                AllowedScopes = { "api" }
-            },
-
-            // interactive ASP.NET Core MVC client
-            new Client
-            {
-                ClientId = "Code",
-                ClientSecrets = { new Secret("secret".Sha256()) },
-                AllowedGrantTypes = GrantTypes.Code,
-                //需要确认授权
-                RequireConsent=true,
-                RequirePkce=true,
-                //允许token通过浏览器
-                AllowAccessTokensViaBrowser=true,
-                AlwaysIncludeUserClaimsInIdToken=true,
-                //是否允许刷新token
-                AllowOfflineAccess=true,
-                // where to redirect to after login
+                AllowedGrantTypes = GrantTypes.Implicit,
+                //重定向地址
                 RedirectUris = { "https://localhost:6001/signin-oidc" },
-                //RequireConsent=false,
-                // where to redirect to after logout
+                RequireConsent=false,
                 PostLogoutRedirectUris = { "https://localhost:6001/signout-callback-oidc" },
+                //允许将token通过浏览器传递
+                AllowAccessTokensViaBrowser=true,
                 AllowedScopes = new List<string>
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
@@ -49,24 +31,24 @@ namespace IdsServer.Ids
                     "api"
                 }
             },
-              new Client
+            new Client
             {
-                ClientId = "ClientDemo",
+                ClientId = "CodeDemo",
+                ClientName = "CodeDemo",
                 ClientSecrets = { new Secret("secret".Sha256()) },
-
-                AllowedGrantTypes = GrantTypes.Implicit,
-
-                // where to redirect to after login
+                AllowedGrantTypes = GrantTypes.Code,
+                //重定向地址
                 RedirectUris = { "https://localhost:7001/signin-oidc" },
-                RequireConsent=false,
-                // where to redirect to after logout
                 PostLogoutRedirectUris = { "https://localhost:7001/signout-callback-oidc" },
-
+                //是否需要授权页
+                RequireConsent=true,
+                //允许将token通过浏览器传递
+                AllowAccessTokensViaBrowser=true,
                 AllowedScopes = new List<string>
                 {
-                    IdentityServerConstants.StandardScopes.OpenId,
-                    IdentityServerConstants.StandardScopes.Profile,
-                    "api"
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api"
                 }
             }
         };
