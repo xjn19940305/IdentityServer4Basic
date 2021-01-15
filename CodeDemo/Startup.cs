@@ -37,11 +37,11 @@ namespace CodeDemo
                 {
                     options.SignInScheme = "Cookies";
 
-                    options.Authority = "https://localhost:5001";
+                    options.Authority = "https://localhost:7001";
                     options.RequireHttpsMetadata = false;
 
                     options.ClientId = "CodeDemo";
-                    options.ClientSecret = "secret";
+                    options.ClientSecret = "7YYmg6WKRaYJ6IlasVCQZSswjQ6QL7Ye8GkGy9pXoPk=";
                     options.ResponseType = "code"; //´ú±íAuthorization Code
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
