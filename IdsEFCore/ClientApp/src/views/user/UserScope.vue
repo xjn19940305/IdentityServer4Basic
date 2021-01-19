@@ -32,8 +32,11 @@ export default {
   },
   methods: {
     async Init () {
-      var returnUrl = decodeURIComponent(this.$route.query.ReturnUrl)
+      var returnUrl = decodeURIComponent(this.$route.query.returnUrl)
       var data = await UserApi.GetConsentContext(encodeURIComponent(returnUrl))
+      if (!data.requireConsent) {
+        window.location.href = this.$route.query.returnUrl
+      }
       this.form.Scope = data.identityScopes
         .filter(x => x.checked)
         .map(x => {
@@ -67,7 +70,7 @@ export default {
       console.log('val', this.form.Scope)
       var data = {
         Type: 'yes',
-        ReturnUrl: decodeURIComponent(this.$route.query.ReturnUrl),
+        ReturnUrl: decodeURIComponent(this.$route.query.returnUrl),
         RememberConsent: true,
         ScopesConsented: this.form.Scope
       }
@@ -81,7 +84,7 @@ export default {
       // this.$refs.ruleForm.resetFields()
       var data = {
         Type: 'no',
-        ReturnUrl: decodeURIComponent(this.$route.query.ReturnUrl),
+        ReturnUrl: decodeURIComponent(this.$route.query.returnUrl),
         RememberConsent: true,
         ScopesConsented: this.form.Scope
       }

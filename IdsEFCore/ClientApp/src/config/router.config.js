@@ -32,15 +32,22 @@ export const constantRouterMap = [
         path: 'Login',
         name: 'Login',
         component: () => import(/* webpackChunkName: "user" */ '@/views/user/Login')
-      },
+      }
+    ]
+  },
+  {
+    path: '/consent',
+    component: UserLayout,
+    redirect: 'consent',
+    hidden: true,
+    children: [
       {
-        path: 'UserScope',
-        name: 'UserScope',
+        path: '/consent',
+        name: 'consent',
         component: () => import(/* webpackChunkName: "user" */ '@/views/user/UserScope')
       }
     ]
   },
-
   {
     path: '/404',
     component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404')

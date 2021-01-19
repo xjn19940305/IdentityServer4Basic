@@ -117,7 +117,7 @@ export default {
     },
     loginSuccess () {
       console.log('login ok')
-      this.$router.push({ path: '/Account/UserScope?ReturnUrl=' + encodeURIComponent(this.$route.query.ReturnUrl) })
+      this.$router.push({ path: '/consent?returnUrl=' + encodeURIComponent(this.$route.query.ReturnUrl) })
     }
   }
 }

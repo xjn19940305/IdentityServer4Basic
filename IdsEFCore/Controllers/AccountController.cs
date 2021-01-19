@@ -66,11 +66,34 @@ namespace IdsEFCore.Controllers
             }
             return Ok();
         }
+        [Route("Account/Logout")]
+        [HttpGet]
+        public async Task<IActionResult> Logout(
+        [FromQuery] string logoutId
+        )
+        {
+            var logout = await interaction.GetLogoutContextAsync(logoutId);
+            await signInManager.SignOutAsync();
+            //获取客户端点击注销登录的地址
+            var refererUrl = Request.Headers["Referer"].ToString();
+            if (!string.IsNullOrWhiteSpace(refererUrl))
+            {
+                return Redirect(refererUrl);
+            }
+            //获取配置的默认的注销登录后的跳转地址
+            if (logout.PostLogoutRedirectUri != null)
+            {
+                return Redirect(logout.PostLogoutRedirectUri);
+            }
+            return Ok();
+        }
         [Route("Account/GetConsentContext")]
         [HttpGet]
         public async Task<IActionResult> GetProGetConsentContextAsync([FromQuery] string returnUrl)
         {
             var request = await interaction.GetAuthorizationContextAsync(returnUrl);
+            //用于刷新缓存
+            var client = await context.Clients.FirstOrDefaultAsync(x => x.ClientId == request.Client.ClientId);
             var result = new ConsentContextModel()
             {
                 AllowRememberConsent = true,
@@ -78,7 +101,7 @@ namespace IdsEFCore.Controllers
                 ClientUrl = request.Client.ClientUri,
                 ClientName = request.Client.ClientName,
                 IdentityScopes = request.ValidatedResources.Resources.IdentityResources.Select(x => CreateScopeModel(x, false)).OrderBy(x => x.Required).ToArray(),
-
+                RequireConsent = client.RequireConsent
             };
             var apiScopes = new List<ScopeModel>();
             foreach (var parsedScope in request.ValidatedResources.ParsedScopes)
@@ -154,7 +177,7 @@ namespace IdsEFCore.Controllers
                 Checked = check || apiScope.Required
             };
         }
-        private ScopeModel CreateScopeModel(IdentityResource identity, bool check)
+        ScopeModel CreateScopeModel(IdentityResource identity, bool check)
         {
             return new ScopeModel
             {

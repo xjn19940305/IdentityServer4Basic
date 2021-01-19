@@ -26,6 +26,8 @@ namespace IdsEFCore.Model
         public bool AllowRememberConsent { get; set; }
         public IEnumerable<ScopeModel> IdentityScopes { get; set; }
         public IEnumerable<ScopeModel> ApiScopes { get; set; }
+
+        public bool RequireConsent { get; set; }
     }
     public class ScopeModel
     {
