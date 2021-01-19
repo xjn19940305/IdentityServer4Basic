@@ -5,9 +5,6 @@
       <span class="ant-pro-global-header-index-action">
         <a-icon type="global" :style="{ fontSize: '16px' }" />
       </span>
-      <a-menu slot="overlay" @click="changeLang">
-        <a-menu-item v-for="item in langList" :key="item.Code">{{ item.Description }}</a-menu-item>
-      </a-menu>
     </a-dropdown>
   </div>
 </template>
@@ -15,7 +12,6 @@
 <script>
 import AvatarDropdown from './AvatarDropdown'
 import i18nMixin from '@/store/i18n-mixin'
-import languageApi from '@/api/language'
 export default {
   name: 'RightContent',
   components: {
@@ -60,15 +56,8 @@ export default {
     this.currentUser = {
       name: UserInfo.Account || ''
     }
-    this.getLanguageList()
   },
   methods: {
-    async getLanguageList () {
-      // 根据应用CODE拿到应用ID
-      var data = await languageApi.getLanglist() || []
-      this.langList = data
-      console.log(this.langList)
-    },
     changeLang ({ key }) {
       this.setLang(key)
     }

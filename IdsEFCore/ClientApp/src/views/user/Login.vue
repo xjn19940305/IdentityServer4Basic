@@ -70,6 +70,7 @@ export default {
   },
   created () {
     this.Init()
+    console.log(this.$route.query.default)
   },
   methods: {
     Init () {

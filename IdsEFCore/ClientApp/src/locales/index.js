@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import storage from 'store'
 import moment from 'moment'
-import languageApi from '@/api/language'
 // default lang
 import enUS from './lang/en-US'
 
@@ -39,13 +38,8 @@ export function loadLanguageAsync (lang = defaultLang) {
     console.log('切换语言', lang)
     // 去查询应用+语言包的翻译内容
     var local = await import(/* webpackChunkName: "lang-[request]" */ `./lang/${lang}`)
-    var server = await languageApi.getTranslate(lang) || []
-    Promise.all([local, server]).then(res => {
-      server = server || []
+    Promise.all([local]).then(res => {
       const locale = local.default
-      server.map(e => {
-        locale[e.TranslateCode] = e.TranslateContent
-      })
       i18n.setLocaleMessage(lang, locale)
       loadedLanguages.push(lang)
       moment.updateLocale(locale.momentName, locale.momentLocale)
