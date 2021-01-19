@@ -81,7 +81,7 @@ namespace IdsEFCore.Controllers
                 return Redirect(refererUrl);
             }
             //获取配置的默认的注销登录后的跳转地址
-            if (logout.PostLogoutRedirectUri != null)
+            if (!string.IsNullOrWhiteSpace(logout.PostLogoutRedirectUri))
             {
                 return Redirect(logout.PostLogoutRedirectUri);
             }
