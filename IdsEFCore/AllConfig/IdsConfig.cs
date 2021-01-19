@@ -21,7 +21,11 @@ namespace IdsEFCore.AllConfig
                PasswordHash="123456"
             }
         };
-
+        public static IEnumerable<ApiResource> ApiResource =>
+           new ApiResource[]
+           {
+               new ApiResource("api1","api1",new string[]{"api1" })
+           };
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
@@ -45,7 +49,7 @@ namespace IdsEFCore.AllConfig
                 {
                     ClientId = "Code_Client_Demo",
                     ClientName="授权码模式",
-                    ClientSecrets = { new Secret("Code_Client_Demo".Sha256(),"desc") },
+                    ClientSecrets = { new Secret("Code_Client_Demo".Sha256(),"code") },
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     //登录成功后返回的客户端地址
                     RedirectUris={"https://localhost:5001/signin-oidc"},
@@ -74,7 +78,7 @@ namespace IdsEFCore.AllConfig
                 {
                     ClientId = "Implicit_client",
                     ClientName="简化模式",
-                    ClientSecrets = { new Secret("Implicit_client_secret".Sha256(),"desc") },
+                    ClientSecrets = { new Secret("Implicit_client_secret".Sha256(),"implicit") },
                     AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
                     //登录成功后返回的客户端地址
                     RedirectUris={"https://localhost:1001/signin-oidc"},
@@ -102,7 +106,7 @@ namespace IdsEFCore.AllConfig
                 {
                     ClientId="hybrid_client",
                     ClientName="混合模式",
-                    ClientSecrets={ new Secret("hybridsecret".Sha256(),"desc") },
+                    ClientSecrets={ new Secret("hybridsecret".Sha256(),"hybrid") },
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     //登录成功后返回的客户端地址
                     RedirectUris={"https://localhost:6001/signin-oidc"},
@@ -130,7 +134,7 @@ namespace IdsEFCore.AllConfig
                 {
                     ClientId="Client_Mode",
                     ClientName="客户端授权模式",
-                    ClientSecrets={ new Secret("client_mode".Sha256(),"desc") },
+                    ClientSecrets={ new Secret("client_mode".Sha256(),"client") },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     //登录成功后返回的客户端地址
                     RedirectUris={"https://localhost:2001/signin-oidc"},
@@ -150,7 +154,24 @@ namespace IdsEFCore.AllConfig
                     },
                     //不需要手动授权
                     RequireConsent=false
-                }
+                },
+                  new Client
+                {
+                    ClientId="Jwt_Client",
+                    ClientName="密码授权方式",
+                    ClientSecrets={ new Secret("Jwt_secret".Sha256(),"password") },
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    RefreshTokenUsage=TokenUsage.ReUse,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AllowOfflineAccess = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1",
+                        "Mobile"
+                    }
+                },
             };
     }
 }

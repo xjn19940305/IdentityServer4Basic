@@ -57,6 +57,14 @@ namespace IdsEFCore
                 }
                 await context.SaveChangesAsync();
             }
+            if (!context.ApiResources.Any())
+            {
+                foreach (var res in IdsConfig.ApiResource)
+                {
+                    await context.ApiResources.AddAsync(res.ToEntity());
+                }
+                await context.SaveChangesAsync();
+            }
             if (!context.Clients.Any())
             {
                 foreach (var client in IdsConfig.Clients)

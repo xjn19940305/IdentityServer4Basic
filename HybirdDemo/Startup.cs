@@ -64,7 +64,6 @@ namespace HybirdDemo
                     options.Scope.Add(OidcConstants.StandardScopes.Profile);
                     options.Scope.Add("api1");
                     options.Scope.Add("Mobile");
-                    //
                 });
         }
 
