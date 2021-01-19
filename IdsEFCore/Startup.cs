@@ -1,5 +1,8 @@
 using IDS.Database;
 using IDS.Database.Entities;
+using IdsEFCore.Extension;
+using IdsEFCore.filter;
+using IdsEFCore.Redis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -29,7 +33,10 @@ namespace IdsEFCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(o =>
+            {
+                o.Filters.Add(typeof(CustomeExceptionFilter));
+            });
             var config = Configuration.GetSection("Connection");
             services.AddDbContext<IDSContext>(
             options => options.UseMySql(config?.Value ?? string.Empty, mysql =>
@@ -38,7 +45,7 @@ namespace IdsEFCore
                      .MigrationsAssembly(System.Reflection.Assembly.Load("IDS.MySql").FullName)
                      .EnableRetryOnFailure(3, TimeSpan.FromSeconds(10), null);
             }));
-            services.AddIdentity<IDS.Database.Entities.User, Microsoft.AspNetCore.Identity.IdentityRole>(o =>
+            services.AddIdentity<IDS.Database.Entities.User, IDS.Database.Entities.IdentityRole>(o =>
             {
                 o.Password.RequireDigit = false;
                 o.Password.RequireLowercase = false;
@@ -46,7 +53,7 @@ namespace IdsEFCore
                 o.Password.RequireUppercase = false;
                 o.Password.RequireNonAlphanumeric = false;
             })
-           //.AddClaimsPrincipalFactory<Providers.UserClaimsPrincipalFactory>()
+           .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>()
            .AddDefaultTokenProviders()
            .AddEntityFrameworkStores<IDSContext>();
 
@@ -57,6 +64,7 @@ namespace IdsEFCore
                     options.Events.RaiseInformationEvents = true;
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
+                    //options.UserInteraction.LoginUrl = "https://localhost:7001/user/login";
                 })
                 .AddJwtBearerClientAuthentication()
                 .AddAppAuthRedirectUriValidator()
@@ -64,6 +72,7 @@ namespace IdsEFCore
                 .AddAspNetIdentity<User>()
                 .AddOperationalStore<IDSContext>()
                 .AddConfigurationStore<IDSContext>()
+                .AddDeveloperSigningCredential()
                 //.AddSigningCredential(jwk, "RS256")
                 //.AddExtensionGrantValidator<CodeExtensionGrantValidator>()
                 .AddConfigurationStoreCache();
@@ -76,8 +85,35 @@ namespace IdsEFCore
             //    r.RedisConnectionString = dbconfig.Connection;
 
             //});
+            var cors = (string[])Configuration.GetSection("Cors:Url").Get(typeof(string[]));
+            //允许一个或多个来源可以跨域
+            services.AddCors(options =>
+            {
+                options.AddPolicy("cors",
 
+                builder => builder.AllowAnyOrigin()
 
+                .WithMethods("GET", "POST", "HEAD", "PUT", "DELETE", "OPTIONS")
+
+                );
+                options.AddPolicy("CustomCorsPolicy", policy =>
+                {
+                    // 设定允许跨域的来源，有多个可以用','隔开
+                    policy.WithOrigins(cors)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+                });
+                options.AddPolicy("AllAllow", policy =>
+                {
+                    policy
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+
+                });
+            });
+            services.TryAddScoped<RedisCache>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,13 +127,20 @@ namespace IdsEFCore
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors("CustomCorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseIdentityServer();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.UseSpa(spa =>
+            {
+                if (System.Diagnostics.Debugger.IsAttached)
+                {
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8001");
+                }
             });
         }
     }

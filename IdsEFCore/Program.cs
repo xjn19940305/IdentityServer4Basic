@@ -1,9 +1,11 @@
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IDS.Database;
+using IDS.Database.Entities;
 using IdsEFCore.AllConfig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +31,8 @@ namespace IdsEFCore
                 await context.Database.MigrateAsync();
                 if (shouldSeed)
                 {
-                    await InitializeDatabase(context);
+                    var Usercontext = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+                    await InitializeDatabase(context, Usercontext);
                     logger.LogInformation($"{DateTime.Now} 初始化数据库初始化数据");
                 }
             }
@@ -44,8 +47,16 @@ namespace IdsEFCore
                 });
 
 
-        private static async Task InitializeDatabase(IDSContext context)
+        private static async Task InitializeDatabase(IDSContext context, UserManager<User> userManager)
         {
+            if (!context.Users.Any())
+            {
+                foreach (var user in IdsConfig.Users)
+                {
+                    await userManager.CreateAsync(user, user.PasswordHash);
+                }
+                await context.SaveChangesAsync();
+            }
             if (!context.Clients.Any())
             {
                 foreach (var client in IdsConfig.Clients)

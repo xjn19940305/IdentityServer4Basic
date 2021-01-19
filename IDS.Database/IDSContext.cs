@@ -15,7 +15,6 @@ namespace IDS.Database
 {
     public class IDSContext : IdentityDbContext<User, Entities.IdentityRole, string, IdentityUserClaim, IdentityUserRole, IdentityUserLogin, IdentityRoleClaim, IdentityUserToken>, IPersistedGrantDbContext, IConfigurationDbContext
     {
-        public DbSet<Test> Test { get; set; }
         public DbSet<PersistedGrant> PersistedGrants { get; set; }
         public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; }
         public DbSet<Client> Clients { get; set; }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,25 +28,32 @@ namespace CodeDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //jwt claim类型映射关闭
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = "Cookies";
-                options.DefaultChallengeScheme = "oidc";
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-                .AddCookie("Cookies")
-                .AddOpenIdConnect("oidc", options =>
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
-                    options.SignInScheme = "Cookies";
-
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.Authority = "https://localhost:7001";
-                    options.RequireHttpsMetadata = false;
-
-                    options.ClientId = "CodeDemo";
-                    options.ClientSecret = "7YYmg6WKRaYJ6IlasVCQZSswjQ6QL7Ye8GkGy9pXoPk=";
-                    options.ResponseType = "code"; //代表Authorization Code
+                    options.RequireHttpsMetadata = true;
+                    options.ClientId = "Code_Client_Demo";
+                    options.ClientSecret = "Code_Client_Demo";
+                    //代表Authorization Code
+                    options.ResponseType = "code";
+                    //保存到cookies中
                     options.SaveTokens = true;
+                    options.Scope.Clear();
+                    options.Scope.Add("api1");
+                    options.Scope.Add("Mobile");
+                    options.Scope.Add(OidcConstants.StandardScopes.OpenId);
+                    options.Scope.Add(OidcConstants.StandardScopes.Profile);
+                    options.Scope.Add(OidcConstants.StandardScopes.OfflineAccess);
                     options.GetClaimsFromUserInfoEndpoint = true;
                 });
         }
