@@ -5,9 +5,21 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+FROM node:lts as nodejs
+WORKDIR /src
+COPY . .
+WORKDIR /src/A35Mge.Api/ClientApp
+#RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+RUN npm install 
+RUN npm run build
+
+
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["IdsEFCore/IdsEFCore.csproj", "IdsEFCore/"]
+COPY ["Dependency/Dependency.csproj", "Dependency/"]
+COPY ["IDS.Database/IDS.Database.csproj", "IDS.Database/"]
+COPY ["IDS.MySql/IDS.MySql.csproj", "IDS.MySql/"]
 RUN dotnet restore "IdsEFCore/IdsEFCore.csproj"
 COPY . .
 WORKDIR "/src/IdsEFCore"
@@ -19,4 +31,6 @@ RUN dotnet publish "IdsEFCore.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=nodejs /src/IdsEFCore/ClientApp/dist/ ./wwwroot/
+RUN rm /app/appsetting*
 ENTRYPOINT ["dotnet", "IdsEFCore.dll"]
