@@ -8,7 +8,7 @@ EXPOSE 443
 FROM node:lts as nodejs
 WORKDIR /src
 COPY . .
-WORKDIR /src/A35Mge.Api/ClientApp
+WORKDIR /src/IdsEFCore/ClientApp
 #RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
 RUN npm install 
 RUN npm run build
