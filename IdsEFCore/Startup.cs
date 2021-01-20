@@ -85,6 +85,7 @@ namespace IdsEFCore
             //    r.RedisConnectionString = dbconfig.Connection;
 
             //});
+
             var cors = (string[])Configuration.GetSection("Cors:Url").Get(typeof(string[]));
             //允许一个或多个来源可以跨域
             services.AddCors(options =>

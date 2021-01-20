@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using IdentityServer4;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Password_Client.Controllers
 {
-    [Authorize]
+  
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -24,7 +25,13 @@ namespace Password_Client.Controllers
         {
             _logger = logger;
         }
-
+        [Authorize(Policy = "Api")]
+        [HttpGet("get2")]
+        public string Get2()
+        {
+            return "fasfsa";
+        }
+        [Authorize]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {

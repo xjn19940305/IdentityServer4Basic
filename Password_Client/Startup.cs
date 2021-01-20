@@ -34,6 +34,13 @@ namespace Password_Client
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters.ValidateAudience = false;
             });
+            services.AddAuthorization(o =>
+            {
+                o.AddPolicy("Api", policy =>
+                {
+                    policy.RequireClaim("scope", "api1");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
