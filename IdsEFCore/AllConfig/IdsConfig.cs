@@ -136,24 +136,12 @@ namespace IdsEFCore.AllConfig
                     ClientName="客户端授权模式",
                     ClientSecrets={ new Secret("client_mode".Sha256(),"client") },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    //登录成功后返回的客户端地址
-                    RedirectUris={"https://localhost:2001/signin-oidc"},
-                    FrontChannelLogoutUri="https://localhost:2001/signout-oidc",
-                    //注销登录后返回的客户端地址
-                    PostLogoutRedirectUris={"https://localhost:2001/signout-callback-oidc"},
-                    //将用户所有的claims包含在IdToken内
-                    AlwaysIncludeUserClaimsInIdToken=true,
                     //offline_access，其实指的是能否用refreshtoken重新申请令牌
                     AllowOfflineAccess=true,
                     AllowedScopes =
                     {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        "api1",
-                        "Mobile"
-                    },
-                    //不需要手动授权
-                    RequireConsent=false
+                         "api1"
+                    }
                 },
                   new Client
                 {

@@ -51,34 +51,13 @@ namespace HybirdDemo.Controllers
                 throw new Exception(tokenResponse.Error);
             }
             var expiresAt = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.ExpiresIn);
-            var tokens = new[] {
-                new AuthenticationToken
-                {
-                    Name = OpenIdConnectParameterNames.IdToken,
-                    Value = tokenResponse.IdentityToken
-                },
-                new AuthenticationToken
-                {
-                    Name = OpenIdConnectParameterNames.AccessToken,
-                    Value = tokenResponse.AccessToken
-                },
-                new AuthenticationToken
-                {
-                    Name = OpenIdConnectParameterNames.RefreshToken,
-                    Value = tokenResponse.RefreshToken
-                },
-                new AuthenticationToken
-                {
-                    Name = "expires_at",
-                    Value = expiresAt.ToString("o", CultureInfo.InvariantCulture)
-                }
-            };
-            // 获取身份认证的结果，包含当前的pricipal和properties
-            var currentAuthenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            //把新的tokens存起来
-            currentAuthenticateResult.Properties.StoreTokens(tokens);
+            var info = await HttpContext.AuthenticateAsync("Cookies");
+            info.Properties.UpdateTokenValue(OpenIdConnectParameterNames.IdToken, tokenResponse.IdentityToken);
+            info.Properties.UpdateTokenValue(OpenIdConnectParameterNames.RefreshToken, tokenResponse.RefreshToken);
+            info.Properties.UpdateTokenValue(OpenIdConnectParameterNames.AccessToken, tokenResponse.AccessToken);
+            info.Properties.UpdateTokenValue("expires_at", expiresAt.ToString("o", CultureInfo.InvariantCulture));
             //登录
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, currentAuthenticateResult.Principal, currentAuthenticateResult.Properties);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, info.Principal, info.Properties);
         }
     }
 }
