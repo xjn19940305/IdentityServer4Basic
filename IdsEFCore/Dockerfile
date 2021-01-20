@@ -5,11 +5,11 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM node:lts as nodejs
+FROM node:14 as nodejs
 WORKDIR /src
 COPY . .
 WORKDIR /src/IdsEFCore/ClientApp
-#RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
 RUN npm install 
 RUN npm run build
 
