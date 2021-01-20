@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,8 @@ namespace IdsEFCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var jwk = Configuration.GetSection("Jwk").Get<JsonWebKey>();
+
             services.AddControllers(o =>
             {
                 o.Filters.Add(typeof(CustomeExceptionFilter));
@@ -73,7 +76,7 @@ namespace IdsEFCore
                 .AddOperationalStore<IDSContext>()
                 .AddConfigurationStore<IDSContext>()
                 .AddDeveloperSigningCredential()
-                //.AddSigningCredential(jwk, "RS256")
+                .AddSigningCredential(jwk, "RS256")
                 //.AddExtensionGrantValidator<CodeExtensionGrantValidator>()
                 .AddConfigurationStoreCache();
             //.AddRedisCaching(r =>

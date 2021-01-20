@@ -5,13 +5,13 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM node:14 as nodejs
+FROM node:lts as nodejs
 WORKDIR /src
 COPY . .
 WORKDIR /src/IdsEFCore/ClientApp
-RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
-RUN cnpm install 
-RUN cnpm run build
+#RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+RUN npm install 
+RUN npm run build
 
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
