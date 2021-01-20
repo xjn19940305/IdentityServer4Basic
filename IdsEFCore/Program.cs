@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,6 +42,7 @@ namespace IdsEFCore
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfigurationFromFiles()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
@@ -91,6 +93,27 @@ namespace IdsEFCore
                 }
                 await context.SaveChangesAsync();
             }
+        }
+
+
+    }
+    public static class HostBuilderExtensions
+    {
+        public static IHostBuilder ConfigureAppConfigurationFromFiles(this IHostBuilder hostBuilder)
+        {
+            hostBuilder.ConfigureAppConfiguration((hostctx, config) =>
+            {
+                var path = hostctx.Configuration["CONFIG_ROOT"] ?? Path.Combine(hostctx.HostingEnvironment.ContentRootPath, "configs");
+                if (Directory.Exists(path))
+                {
+                    var files = Directory.EnumerateFiles(path, "*.json");
+                    foreach (var file in files)
+                    {
+                        config.AddJsonFile(file, true, true);
+                    }
+                }
+            });
+            return hostBuilder;
         }
     }
 }
