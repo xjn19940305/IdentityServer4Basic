@@ -123,6 +123,13 @@ namespace IdsEFCore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var option = new ForwardedHeadersOptions()
+            {
+                ForwardedHeaders=Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.All
+            };
+            option.KnownNetworks.Clear();
+            option.KnownProxies.Clear();
+            app.UseForwardedHeaders(option);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
