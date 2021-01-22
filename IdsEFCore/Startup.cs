@@ -143,10 +143,10 @@ namespace IdsEFCore
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCookiePolicy();
             app.UseStaticFiles();
             app.UseHttpsRedirection();
-            app.UseCookiePolicy();
+
             app.UseRouting();
             app.UseCors("CustomCorsPolicy");
             app.UseAuthentication();
