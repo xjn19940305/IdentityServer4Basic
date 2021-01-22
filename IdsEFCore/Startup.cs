@@ -1,10 +1,11 @@
-using IDS.Database;
+锘縰sing IDS.Database;
 using IDS.Database.Entities;
 using IdsEFCore.Extension;
 using IdsEFCore.filter;
 using IdsEFCore.Redis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -90,7 +91,6 @@ namespace IdsEFCore
             //});
 
             var cors = (string[])Configuration.GetSection("Cors:Url").Get(typeof(string[]));
-            //允许一个或多个来源可以跨域
             services.AddCors(options =>
             {
                 options.AddPolicy("cors",
@@ -102,7 +102,6 @@ namespace IdsEFCore
                 );
                 options.AddPolicy("CustomCorsPolicy", policy =>
                 {
-                    // 设定允许跨域的来源，有多个可以用','隔开
                     policy.WithOrigins(cors)
                     .AllowAnyHeader()
                     .AllowAnyMethod()
@@ -116,6 +115,10 @@ namespace IdsEFCore
                     .AllowAnyHeader();
 
                 });
+            });
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
             });
             services.TryAddScoped<RedisCache>();
         }
