@@ -52,11 +52,11 @@ namespace IdsEFCore.AllConfig
                     ClientSecrets = { new Secret("Code_Client_Demo".Sha256(),"code") },
                     AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     //登录成功后返回的客户端地址
-                    RedirectUris={"https://localhost:5001/signin-oidc"},
+                    RedirectUris={"https://CodeClient/signin-oidc"},
                     //注销前端登出后返回的客户端地址
-                    FrontChannelLogoutUri="https://localhost:5001/signout-oidc",
+                    FrontChannelLogoutUri="https://CodeClient/signout-oidc",
                     //注销后端登出后返回的客户端地址
-                    PostLogoutRedirectUris={"https://localhost:5001/signout-callback-oidc"},
+                    PostLogoutRedirectUris={"https://CodeClient/signout-callback-oidc"},
                     //将用户所有的claims包含在IdToken内
                     AlwaysIncludeUserClaimsInIdToken=true,
                     //offline_access，其实指的是能否用refreshtoken重新申请令牌
