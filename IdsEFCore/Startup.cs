@@ -5,6 +5,7 @@ using IdsEFCore.filter;
 using IdsEFCore.Redis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -116,6 +117,11 @@ namespace IdsEFCore
                     .AllowAnyHeader();
 
                 });
+            });
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
+  
             });
             services.TryAddScoped<RedisCache>();
         }
