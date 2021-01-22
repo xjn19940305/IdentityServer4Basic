@@ -125,7 +125,7 @@ namespace IdsEFCore
         {
             var option = new ForwardedHeadersOptions()
             {
-                ForwardedHeaders=Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.All
+                ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.All
             };
             option.KnownNetworks.Clear();
             option.KnownProxies.Clear();
@@ -134,9 +134,10 @@ namespace IdsEFCore
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseStaticFiles();
             app.UseHttpsRedirection();
-
+            app.UseCookiePolicy();
             app.UseRouting();
             app.UseCors("CustomCorsPolicy");
             app.UseAuthentication();
