@@ -40,7 +40,7 @@ namespace CodeDemo
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
                     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.Authority = "http://ids";
+                    options.Authority = "http://47.102.134.157";
                     options.RequireHttpsMetadata = false;
                     options.ClientId = "Code_Client_Demo";
                     options.ClientSecret = "Code_Client_Demo";

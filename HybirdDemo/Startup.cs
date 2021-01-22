@@ -31,12 +31,6 @@ namespace HybirdDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.Lax;
-            });
             //jwt claim¿‡–Õ”≥…‰πÿ±’
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -76,7 +70,6 @@ namespace HybirdDemo
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

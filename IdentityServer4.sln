@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implicit_Client", "Implicit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Password_Client", "Password_Client\Password_Client.csproj", "{594DBC2F-97BA-4620-8C6B-02557D5A16F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientCredentials", "ClientCredentials\ClientCredentials.csproj", "{6C9D7340-DBB5-40EE-80FE-937D02FA5699}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientCredentials", "ClientCredentials\ClientCredentials.csproj", "{6C9D7340-DBB5-40EE-80FE-937D02FA5699}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.Client", "IDS.Client\IDS.Client.csproj", "{BB1A90B0-D78F-4C48-951F-5E5A5F5AEE02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{6C9D7340-DBB5-40EE-80FE-937D02FA5699}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C9D7340-DBB5-40EE-80FE-937D02FA5699}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C9D7340-DBB5-40EE-80FE-937D02FA5699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB1A90B0-D78F-4C48-951F-5E5A5F5AEE02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB1A90B0-D78F-4C48-951F-5E5A5F5AEE02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB1A90B0-D78F-4C48-951F-5E5A5F5AEE02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB1A90B0-D78F-4C48-951F-5E5A5F5AEE02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{E8AFA192-C144-4151-9E6F-31AD952278B5} = {888509F4-A817-4281-BE53-3B6F53BEF114}
 		{594DBC2F-97BA-4620-8C6B-02557D5A16F3} = {888509F4-A817-4281-BE53-3B6F53BEF114}
 		{6C9D7340-DBB5-40EE-80FE-937D02FA5699} = {888509F4-A817-4281-BE53-3B6F53BEF114}
+		{BB1A90B0-D78F-4C48-951F-5E5A5F5AEE02} = {888509F4-A817-4281-BE53-3B6F53BEF114}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0511976C-3F0B-4454-A0AA-3817BE6C1A5E}
