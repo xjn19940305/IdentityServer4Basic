@@ -120,11 +120,11 @@ namespace IdsEFCore
             });
             services.Configure<CookiePolicyOptions>(options =>
             {
-                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
-                options.OnAppendCookie = cookieContext =>
-                    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-                options.OnDeleteCookie = cookieContext =>
-                    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+                //options.OnAppendCookie = cookieContext =>
+                //    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+                //options.OnDeleteCookie = cookieContext =>
+                //    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
             });
             services.TryAddScoped<RedisCache>();
         }

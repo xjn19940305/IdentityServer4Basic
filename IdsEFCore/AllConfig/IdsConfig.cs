@@ -24,7 +24,8 @@ namespace IdsEFCore.AllConfig
         public static IEnumerable<ApiResource> ApiResource =>
            new ApiResource[]
            {
-               new ApiResource("api1","api1",new string[]{"api1" })
+               new ApiResource("api1","api1",new string[]{"api1" }),
+               new ApiResource("IdsScope","IdsScope",new string[]{ "IdsScope"})
            };
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
@@ -40,6 +41,7 @@ namespace IdsEFCore.AllConfig
             new ApiScope[]
             {
                 new ApiScope("api1"),
+                new ApiScope("IdsScope"),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -117,6 +119,7 @@ namespace IdsEFCore.AllConfig
                     AlwaysIncludeUserClaimsInIdToken=true,
                     //offline_access，其实指的是能否用refreshtoken重新申请令牌
                     AllowOfflineAccess=true,
+                     RequirePkce=false,
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -128,6 +131,33 @@ namespace IdsEFCore.AllConfig
                         "Mobile"
                     },
                     //不需要手动授权
+                    RequireConsent=false
+                },
+                new Client
+                {
+                    ClientId="Ids_Client",
+                    ClientName="IdentityServer客户端",
+                    ClientSecrets={ new Secret("Ids_Client_secret".Sha256(),"hybrid") },
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    //登录成功后返回的客户端地址
+                    RedirectUris={"https://localhost:11001/signin-oidc"},
+                    FrontChannelLogoutUri="https://localhost:11001/signout-oidc",
+                    //注销登录后返回的客户端地址
+                    PostLogoutRedirectUris={"https://localhost:11001/signout-callback-oidc"},
+                    //将用户所有的claims包含在IdToken内
+                    AlwaysIncludeUserClaimsInIdToken=true,
+                    //offline_access，其实指的是能否用refreshtoken重新申请令牌
+                    AllowOfflineAccess=true,
+                    RequirePkce=false,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                        "IdsScope"
+
+                    },
+                    //是否需要手动授权
                     RequireConsent=true
                 },
                  new Client

@@ -31,7 +31,7 @@ Vue.component('page-container', PageHeaderWrapper)
 Vue.component('page-header-wrapper', PageHeaderWrapper)
 
 window.umi_plugin_ant_themeVar = themePluginConfig.theme
-
+localStorage.setItem('IsStart', 'false')
 new Vue({
   router,
   store,
