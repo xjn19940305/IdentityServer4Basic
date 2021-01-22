@@ -7,13 +7,18 @@ import { setDocumentTitle, domTitle } from '@/utils/domUtil'
 import { i18nRender } from '@/locales'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
-// const loginRoutePath = '/Account/Login'
+const loginRoutePath = '/Account/Login'
 // const defaultRoutePath = '/dashboard/workplace'
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${i18nRender(to.meta.title)} - ${domTitle}`))
-  next()
+  if (to.path === '/') {
+    next({ path: loginRoutePath })
+    NProgress.done()
+  } else {
+    next()
+  }
 })
 
 router.afterEach(() => {
