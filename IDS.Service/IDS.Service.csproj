@@ -7,8 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\IDS.Database\IDS.Database.csproj" />
     <ProjectReference Include="..\IDS.Model\IDS.Model.csproj" />
-    <ProjectReference Include="..\IDS.MySql\IDS.MySql.csproj" />
-    <ProjectReference Include="..\IDS.Service\IDS.Service.csproj" />
   </ItemGroup>
 
 </Project>

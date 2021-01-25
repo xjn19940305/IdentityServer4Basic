@@ -1,6 +1,9 @@
+using AutoMapper;
 using IdentityModel;
 using IDS.Client.filter;
 using IDS.Database;
+using IDS.Service.Implement;
+using IDS.Service.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -11,12 +14,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace IDS.Client
@@ -37,6 +42,11 @@ namespace IDS.Client
             {
                 o.Filters.Add(typeof(IdsPermissionFilter));
             });
+            services
+               .AddAutoMapper(
+               Assembly.Load("IDS.Service"));
+            services.TryAddScoped<IClientService, ClientService>();
+
             var config = Configuration.GetSection("Connection");
             services.AddDbContext<IDSContext>(
             options => options.UseMySql(config?.Value ?? string.Empty, mysql =>
