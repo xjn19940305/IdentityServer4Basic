@@ -1,6 +1,7 @@
 // eslint-disable-next-line
 import { UserLayout, BasicLayout, BlankLayout } from '@/layouts'
 import { bxAnaalyse } from '@/core/icons'
+// import { PageView } from '@/layouts/index'
 
 const RouteView = {
   name: 'RouteView',
@@ -8,7 +9,6 @@ const RouteView = {
 }
 
 export const asyncRouterMap = [
-
   {
     path: '/',
     name: 'index',
@@ -43,6 +43,12 @@ export const asyncRouterMap = [
             meta: { title: 'menu.dashboard.workplace', keepAlive: true }
           }
         ]
+      },
+      {
+        path: '/client',
+        name: 'client_Manager',
+        component: () => import('@/views/client/Index'),
+        meta: { title: 'client_Manager', keepAlive: true, icon: bxAnaalyse }
       }
     ]
   },

@@ -8,7 +8,7 @@ import enUS from './lang/en-US'
 
 Vue.use(VueI18n)
 
-export const defaultLang = 'en-US'
+export const defaultLang = 'zh-CN'
 
 const messages = {
   'en-US': {
