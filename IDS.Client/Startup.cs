@@ -70,7 +70,7 @@ namespace IDS.Client
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
                     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.Authority = "http://47.102.134.157";
+                    options.Authority = "https://sso.xzsp2020.com";
                     options.RequireHttpsMetadata = false;
                     options.ClientId = "Ids_Client";
                     options.ClientSecret = "Ids_Client_secret";

@@ -51,7 +51,16 @@ namespace IDS.Service.Implement
         public async Task<PagedViewModel> GetList(ClientRequest request)
         {
             var model = new PagedViewModel();
-            var data = Context.Clients.OrderByDescending(x => x.Created).AsNoTracking();
+            var data = Context.Clients
+                .Include(x=>x.AllowedGrantTypes)
+                .Include(x=>x.AllowedScopes)
+                .Include(x=>x.RedirectUris)
+                .Include(x=>x.PostLogoutRedirectUris)
+                .OrderByDescending(x => x.Created).AsNoTracking();
+            if (!string.IsNullOrWhiteSpace(request.clientId))
+                data = data.Where(x => x.ClientId == request.clientId);
+            if (!string.IsNullOrWhiteSpace(request.clientName))
+                data = data.Where(x => x.ClientName.Contains(request.clientName));
             model.totalElements = data.Count();
             data = data.Skip((request.page - 1) * request.pageSize).Take(request.pageSize);
             model.Data = await data.Select(x => mapper.Map<ClientDTOResponse>(x)).ToListAsync();

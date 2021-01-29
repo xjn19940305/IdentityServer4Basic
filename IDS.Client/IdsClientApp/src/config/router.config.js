@@ -38,6 +38,19 @@ export const asyncRouterMap = [
         name: 'client_Manager',
         component: () => import('@/views/client/Index'),
         meta: { title: 'client_Manager', keepAlive: true, icon: bxAnaalyse }
+      },
+      {
+        hidden: true,
+        path: '/client/Modify',
+        name: 'ClientModify',
+        component: () => import('@/views/client/Modify'),
+        meta: { title: 'ClientModify', keepAlive: true, icon: bxAnaalyse }
+      },
+      {
+        path: '/TestUpload',
+        name: 'TestUpload',
+        component: () => import('@/views/test/Upload'),
+        meta: { title: 'TestUpload', keepAlive: true, icon: bxAnaalyse }
       }
     ]
   },

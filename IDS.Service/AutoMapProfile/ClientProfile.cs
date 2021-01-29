@@ -13,6 +13,11 @@ namespace IDS.Service.AutoMapProfile
         {
             CreateMap<Client, ClientDTO>().ReverseMap();
             CreateMap<Client, ClientDTOResponse>().ReverseMap();
+
+            CreateMap<ClientGrantType, ClientGrantTypeDTO>().ReverseMap();
+            CreateMap<ClientPostLogoutRedirectUri, ClientPostLogoutRedirectUriDTO>().ReverseMap();
+            CreateMap<ClientRedirectUri, ClientRedirectUriDTO>().ReverseMap();
+            CreateMap<ClientScope, ClientScopeDTO>().ReverseMap();
         }
     }
 }

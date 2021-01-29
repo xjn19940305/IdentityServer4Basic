@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IdentityServer4.EntityFramework.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -50,5 +51,9 @@ namespace IDS.Model.Client
         public bool BackChannelLogoutSessionRequired { get; set; }
         public bool AlwaysIncludeUserClaimsInIdToken { get; set; }
         public bool NonEditable { get; set; }
+        public List<ClientGrantTypeDTO> AllowedGrantTypes { get; set; }
+        public List<ClientScopeDTO> AllowedScopes { get; set; }
+        public List<ClientRedirectUriDTO> RedirectUris { get; set; }
+        public List<ClientPostLogoutRedirectUriDTO> PostLogoutRedirectUris { get; set; }
     }
 }

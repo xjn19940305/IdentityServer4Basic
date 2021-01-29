@@ -37,7 +37,22 @@ const locale = {
   'app.setting.loading': 'Loading theme',
   'app.setting.copyinfo': 'copy success，please replace defaultSettings in src/models/setting.js',
   'app.setting.production.hint': 'Setting panel shows in development environment only, please manually modify',
-  'client_Manager': 'Client Manager'
+  'client_Manager': 'Client Manager',
+  'clientId': 'Client Id',
+  'clientName': 'Client Name',
+  'requireClientSecret': 'RequireClientSecret',
+  'requireConsent': 'RequireConsent',
+  'accessTokenLifetime': 'AccessTokenLifetime',
+  'allowedScopes': 'AllowedScopes',
+  'redirectUris': 'RedirectUris',
+  'postLogoutRedirectUris': 'PostLogoutRedirectUris',
+  'CreateDate': 'CreateDate',
+  'Action': 'Action',
+  'Query': 'Query',
+  'Reset': 'Reset',
+  'Public_Add': 'Add',
+  'Public_Update': 'Update',
+  'Public_Delete': 'Delete'
 }
 
 export default {

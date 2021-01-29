@@ -5,21 +5,15 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="10" :sm="24">
-              <a-form-item :label="$t('Comment_Article')">
-                <a-input v-model="ArticleTitle" placeholder @keydown.native.stop="handleQuery" />
+              <a-form-item :label="$t('clientId')">
+                <a-input v-model="clientId" placeholder @keydown.native.stop="handleQuery" />
               </a-form-item>
             </a-col>
             <a-col :md="10" :sm="24">
-              <a-form-item :label="$t('Comment_Meeting')">
-                <a-input v-model="MeetingTitle" placeholder @keydown.native.stop="handleQuery" />
+              <a-form-item :label="$t('clientName')">
+                <a-input v-model="clientName" placeholder @keydown.native.stop="handleQuery" />
               </a-form-item>
             </a-col>
-            <a-col :md="10" :sm="24">
-              <a-form-item :label="$t('Comment_Content')">
-                <a-input v-model="Content" placeholder @keydown.native.stop="handleQuery" />
-              </a-form-item>
-            </a-col>
-
             <a-col :md="8" :sm="24">
               <a-button type="primary" @click="QueryTable">{{ $t('Query') }}</a-button>
               <a-button style="margin-left: 8px" @click="ResetQuery">{{ $t('Reset') }}</a-button>
@@ -27,7 +21,11 @@
           </a-row>
         </a-form>
       </div>
-      <a-form layout="inline" style="margin-bottom: 10px"> </a-form>
+      <a-form layout="inline" style="margin-bottom: 10px; margin-top: 10px">
+        <a-button type="primary" @click="Add()">
+          {{ $t('Public_Add') }}
+        </a-button>
+      </a-form>
       <a-table
         :row-key="(record) => record.Id"
         :data-source="data"
@@ -36,42 +34,68 @@
         :row-selection="rowSelection"
         @change="handleTableChange"
       >
-        <a-table-column key="ArticleTitle" data-index="ArticleTitle" :title="$t('Comment_Article')" width="16%" />
-        <a-table-column key="MeetingTitle" data-index="MeetingTitle" :title="$t('Comment_Meeting')" width="16%" />
-        <a-table-column key="Content" data-index="Content" :title="$t('Comment_Content')" width="20%">
+        <a-table-column key="clientId" data-index="clientId" :title="$t('clientId')" />
+        <a-table-column key="clientName" data-index="clientName" :title="$t('clientName')" />
+        <a-table-column
+          key="requireClientSecret"
+          data-index="requireClientSecret"
+          :title="$t('requireClientSecret')"
+          width="2%"
+        >
           <template slot-scope="text, record">
-            <span>
-              {{ record.Content }}
+            <a-tag color="#f50" v-if="record.requireClientSecret"> true </a-tag>
+            <a-tag color="#2db7f5" v-else> false </a-tag>
+          </template>
+        </a-table-column>
+        <a-table-column key="requireConsent" data-index="requireConsent" :title="$t('requireConsent')" width="2%">
+          <template slot-scope="text, record">
+            <a-tag color="#f50" v-if="record.requireConsent"> true </a-tag>
+            <a-tag color="#2db7f5" v-else> false </a-tag>
+          </template>
+        </a-table-column>
+        <a-table-column key="accessTokenLifetime" data-index="accessTokenLifetime" :title="$t('accessTokenLifetime')" />
+        <a-table-column key="allowedScopes" data-index="allowedScopes" :title="$t('allowedScopes')">
+          <template slot-scope="text, record">
+            <span v-for="item in record.allowedScopes" :key="item.id">
+              {{ item.scope }}
             </span>
           </template>
         </a-table-column>
-        <a-table-column key="Status" data-index="Status" :title="$t('Comment_Status')" width="10%">
+        <a-table-column key="redirectUris" data-index="redirectUris" :title="$t('redirectUris')">
           <template slot-scope="text, record">
-            <span>
-              <a-tag color="#2db7f5" v-if="record.Status === 10"> {{ $t('Not_reviewed') }} </a-tag>
+            <span v-for="item in record.redirectUris" :key="item.id">
+              {{ item.redirectUri }}
             </span>
-            <span>
-              <a-tag color="#108ee9" v-if="record.Status === 20"> {{ $t('Passed') }} </a-tag>
-            </span>
-            <span>
-              <a-tag color="#f50" v-if="record.Status === 30"> {{ $t('Rejected') }} </a-tag>
+          </template>
+        </a-table-column>
+        <a-table-column
+          key="postLogoutRedirectUris"
+          data-index="postLogoutRedirectUris"
+          :title="$t('postLogoutRedirectUris')"
+        >
+          <template slot-scope="text, record">
+            <span v-for="item in record.postLogoutRedirectUris" :key="item.id">
+              {{ item.postLogoutRedirectUri }}
             </span>
           </template>
         </a-table-column>
         <a-table-column key="CreateDate" data-index="CreateDate" :title="$t('CreateDate')" width="15%">
           <template slot-scope="text, record">
             <span>
-              {{ new Date(record.CreateDate).toLocaleString() }}
+              {{ new Date(record.created).toLocaleString() }}
             </span>
           </template>
         </a-table-column>
         <a-table-column key="action" :title="$t('Action')" width="20%">
           <template slot-scope="text, record">
-            <span v-if="record.Status === 10">
-              <a-button type="primary" @click="ChangeStatus(record.Id, 20)">{{ $t('Passed_Btn') }}</a-button>
-              <a-button type="danger" style="margin-left: 10px" @click="ChangeStatus(record.Id, 30)">{{
-                $t('Rejected_Btn')
-              }}</a-button>
+            <span>
+              <a @click="$router.push({ path: '/client/Modify', query: { Id: record.id } })">{{
+                $t('Public_Update')
+              }}</a>
+              <a-divider type="vertical" />
+              <a-popconfirm :title="$t('public_msg_confirmDelete')" @confirm="() => Delete(record.Id)">
+                <a href="javascript:;">{{ $t('Public_Delete') }}</a>
+              </a-popconfirm>
             </span>
           </template>
         </a-table-column>
@@ -85,8 +109,8 @@ import ClientApi from '@/api/client'
 export default {
   data () {
     return {
-      MeetingTitle: '',
-      ArticleTitle: '',
+      clientName: '',
+      clientId: '',
       Content: '',
       data: [],
       loading: false,
@@ -113,9 +137,12 @@ export default {
     }
   },
   methods: {
+    Add () {
+      this.$router.push({ path: '/client/Modify' })
+    },
     ResetQuery () {
-      this.MeetingTitle = ''
-      this.ArticleTitle = ''
+      this.clientName = ''
+      this.clientId = ''
       this.Content = ''
     },
     // 回车方法
@@ -140,9 +167,8 @@ export default {
       this.fetch({
         pageSize: pagination.pageSize,
         page: pagination.current,
-        MeetingTitle: this.MeetingTitle || '',
-        ArticleTitle: this.ArticleTitle || '',
-        Content: this.Content || '',
+        clientName: this.clientName || '',
+        clientId: this.clientId || '',
         ...filters
       })
     },
@@ -151,9 +177,8 @@ export default {
       this.fetch({
         pageSize: this.pagination.defaultPageSize,
         page: current,
-        MeetingTitle: this.MeetingTitle || '',
-        ArticleTitle: this.ArticleTitle || '',
-        Content: this.Content || ''
+        clientName: this.clientName || '',
+        clientId: this.clientId || ''
       })
     },
     async ChangeStatus (Id, status) {
@@ -169,7 +194,7 @@ export default {
       var res = await ClientApi.getList(params)
       pagination.total = Number(res.totalElements)
       this.loading = false
-      var result = res.Data || []
+      var result = res.data || []
       this.data = result
       this.pagination = pagination
     }
