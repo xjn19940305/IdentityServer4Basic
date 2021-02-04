@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 const userApi = {
   Login: '/auth/login',
-  Logout: '/auth/logout',
+  Logout: '/api/Account/Logout',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
   twoStepCode: '/auth/2step-code',
@@ -37,6 +37,13 @@ export function getSmsCaptcha (parameter) {
     url: userApi.SendSms,
     method: 'post',
     data: parameter
+  })
+}
+
+export function getToken () {
+  return request({
+    url: '/api/Account/GetTokenInfo',
+    method: 'get'
   })
 }
 

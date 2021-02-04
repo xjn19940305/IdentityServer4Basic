@@ -11,7 +11,8 @@ namespace IDS.Client.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
+    [Authorize()]
+    //[Authorize()]
     public class ClientController : ControllerBase
     {
         private readonly IClientService clientService;

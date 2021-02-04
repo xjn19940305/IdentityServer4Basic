@@ -40,7 +40,8 @@ namespace IDS.Client
         {
             services.AddControllersWithViews(o =>
             {
-                o.Filters.Add(typeof(IdsPermissionFilter));
+                //o.Filters.Add(typeof(IdsPermissionFilter));
+                o.Filters.Add(typeof(AuthorizeIDSFilter));
             });
             services
                .AddAutoMapper(
@@ -63,13 +64,13 @@ namespace IDS.Client
 
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultScheme = "IdsClientCookie";
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie("IdsClientCookie")
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
-                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.SignInScheme = "IdsClientCookie";
                     options.Authority = "https://sso.xzsp2020.com";
                     options.RequireHttpsMetadata = false;
                     options.ClientId = "Ids_Client";
@@ -86,13 +87,6 @@ namespace IDS.Client
                     options.Scope.Add(OidcConstants.StandardScopes.OfflineAccess);
                     options.Scope.Add("IdsScope");
                 });
-            services.AddAuthorization(o =>
-            {
-                o.AddPolicy("Api", policy =>
-                {
-                    policy.RequireClaim("scope", "IdsScope");
-                });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

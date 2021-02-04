@@ -21,6 +21,12 @@ namespace IdsEFCore.AllConfig
                PasswordHash="123456"
             }
         };
+        public static IEnumerable<ApiScope> ApiScopes =>
+         new ApiScope[]
+         {
+                new ApiScope("api1"),
+                new ApiScope("IdsScope"),
+         };
         public static IEnumerable<ApiResource> ApiResource =>
            new ApiResource[]
            {
@@ -37,12 +43,7 @@ namespace IdsEFCore.AllConfig
                 new IdentityResource("Mobile","手机号",new string[]{ "Mobile"})
                    };
 
-        public static IEnumerable<ApiScope> ApiScopes =>
-            new ApiScope[]
-            {
-                new ApiScope("api1"),
-                new ApiScope("IdsScope"),
-            };
+
 
         public static IEnumerable<Client> Clients =>
             new Client[]
@@ -155,7 +156,6 @@ namespace IdsEFCore.AllConfig
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "IdsScope"
-
                     },
                     //是否需要手动授权
                     RequireConsent=true

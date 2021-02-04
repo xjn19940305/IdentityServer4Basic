@@ -1,5 +1,5 @@
 import storage from 'store'
-import { login, getInfo, logout } from '@/api/login'
+import { login, getInfo, getToken } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
 
@@ -46,7 +46,18 @@ const user = {
         })
       })
     },
-
+    GetToken ({ commit }) {
+      return new Promise((resolve, reject) => {
+        getToken().then(res => {
+          console.log('token', res)
+          storage.set(ACCESS_TOKEN, res.accessToken)
+          commit('SET_TOKEN', res.accessToken)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
     // 获取用户信息
     GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
@@ -82,15 +93,8 @@ const user = {
     // 登出
     Logout ({ commit, state }) {
       return new Promise((resolve) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          storage.remove(ACCESS_TOKEN)
-          resolve()
-        }).catch(() => {
-          resolve()
-        }).finally(() => {
-        })
+        window.location.href = '/api/Account/Logout'
+        resolve()
       })
     }
 

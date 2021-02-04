@@ -1,5 +1,7 @@
 ﻿using IDS.Database;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +24,15 @@ namespace IDS.Client.Controllers
         {
             this.context = context;
         }
-        [Route("/Account/Login")]
+
         [HttpGet]
-        public IActionResult Login([FromQuery] string ReturnUrl)
+        [HttpPost]
+        public async Task Logout()
         {
-            return Redirect($"/user/login?ReturnUrl={ReturnUrl}");
+            await HttpContext.SignOutAsync("IdsClientCookie");
+            await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetTokenInfo()
         {
@@ -36,6 +41,12 @@ namespace IDS.Client.Controllers
             var idToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
             var refreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
             return Ok(new { accessToken, refreshToken });
+        }
+        [Route("/Account/AccessDenied")]
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return Unauthorized();
         }
 
     }

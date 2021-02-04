@@ -191,12 +191,18 @@ export default {
       params.page = params.page || pagination.defaultCurrent
       params.pageSize = params.pageSize || pagination.defaultPageSize
       this.loading = true
-      var res = await ClientApi.getList(params)
-      pagination.total = Number(res.totalElements)
-      this.loading = false
-      var result = res.data || []
-      this.data = result
-      this.pagination = pagination
+      try {
+        var res = await ClientApi.getList(params)
+        pagination.total = Number(res.totalElements)
+
+        var result = res.data || []
+        this.data = result
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.loading = false
+        this.pagination = pagination
+      }
     }
   }
 }

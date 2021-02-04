@@ -22,7 +22,8 @@
           <a href="_self">条款</a>
         </div>
         <div class="copyright">
-          Copyright &copy; 2018
+          <a href="https://beian.miit.gov.cn"> ICP备案号:苏ICP备2021004453号</a>
+          Copyright &copy; 2021
         </div>
       </div>
     </div>
@@ -30,116 +31,136 @@
 </template>
 
 <script>
-import { deviceMixin } from '@/store/device-mixin'
+  import { deviceMixin } from '@/store/device-mixin'
 
-export default {
-  name: 'UserLayout',
-  mixins: [deviceMixin],
-  mounted () {
-    document.body.classList.add('userLayout')
-  },
-  beforeDestroy () {
-    document.body.classList.remove('userLayout')
+  export default {
+    name: 'UserLayout',
+    mixins: [deviceMixin],
+    mounted() {
+      document.body.classList.add('userLayout')
+    },
+    beforeDestroy() {
+      document.body.classList.remove('userLayout')
+    }
   }
-}
 </script>
 
 <style lang="less" scoped>
-#userLayout.user-layout-wrapper {
+  #userLayout.user-layout-wrapper {
     height: 100%;
+    &.mobile
 
-    &.mobile {
-      .container {
-        .main {
-          max-width: 368px;
-          width: 98%;
-        }
-      }
-    }
+  {
+    .container
 
-    .container {
-      width: 100%;
-      min-height: 100%;
-      background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
-      background-size: 100%;
-      padding: 110px 0 144px;
-      position: relative;
+  {
+    .main
 
-      a {
-        text-decoration: none;
-      }
+  {
+    max-width: 368px;
+    width: 98%;
+  }
 
-      .top {
-        text-align: center;
+  }
+  }
 
-        .header {
-          height: 44px;
-          line-height: 44px;
+  .container {
+    width: 100%;
+    min-height: 100%;
+    background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
+    background-size: 100%;
+    padding: 110px 0 144px;
+    position: relative;
+    a
 
-          .badge {
-            position: absolute;
-            display: inline-block;
-            line-height: 1;
-            vertical-align: middle;
-            margin-left: -12px;
-            margin-top: -10px;
-            opacity: 0.8;
-          }
+  {
+    text-decoration: none;
+  }
 
-          .logo {
-            height: 44px;
-            vertical-align: top;
-            margin-right: 16px;
-            border-style: none;
-          }
+  .top {
+    text-align: center;
+    .header
 
-          .title {
-            font-size: 33px;
-            color: rgba(0, 0, 0, .85);
-            font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-            font-weight: 600;
-            position: relative;
-            top: 2px;
-          }
-        }
-        .desc {
-          font-size: 14px;
-          color: rgba(0, 0, 0, 0.45);
-          margin-top: 12px;
-          margin-bottom: 40px;
-        }
-      }
+  {
+    height: 44px;
+    line-height: 44px;
+    .badge
 
-      .main {
-        min-width: 260px;
-        width: 368px;
-        margin: 0 auto;
-      }
+  {
+    position: absolute;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    margin-left: -12px;
+    margin-top: -10px;
+    opacity: 0.8;
+  }
 
-      .footer {
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        padding: 0 16px;
-        margin: 48px 0 24px;
-        text-align: center;
+  .logo {
+    height: 44px;
+    vertical-align: top;
+    margin-right: 16px;
+    border-style: none;
+  }
 
-        .links {
-          margin-bottom: 8px;
-          font-size: 14px;
-          a {
-            color: rgba(0, 0, 0, 0.45);
-            transition: all 0.3s;
-            &:not(:last-child) {
-              margin-right: 40px;
-            }
-          }
-        }
-        .copyright {
-          color: rgba(0, 0, 0, 0.45);
-          font-size: 14px;
-        }
-      }
-    }
+  .title {
+    font-size: 33px;
+    color: rgba(0, 0, 0, .85);
+    font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    position: relative;
+    top: 2px;
+  }
+
+  }
+
+  .desc {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.45);
+    margin-top: 12px;
+    margin-bottom: 40px;
+  }
+
+  }
+
+  .main {
+    min-width: 260px;
+    width: 368px;
+    margin: 0 auto;
+  }
+
+  .footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding: 0 16px;
+    margin: 48px 0 24px;
+    text-align: center;
+    .links
+
+  {
+    margin-bottom: 8px;
+    font-size: 14px;
+    a
+
+  {
+    color: rgba(0, 0, 0, 0.45);
+    transition: all 0.3s;
+    &:not(:last-child)
+
+  {
+    margin-right: 40px;
+  }
+
+  }
+  }
+
+  .copyright {
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 14px;
+  }
+
+  }
+  }
   }
 </style>

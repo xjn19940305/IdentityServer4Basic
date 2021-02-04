@@ -18,6 +18,7 @@ router.beforeEach((to, from, next) => {
     store.dispatch('InitData').then((res) => {
     })
   }
+  store.dispatch('GetToken').then(() => { })
   var routeState = store.getters.routerState
   if (!routeState) {
     store.dispatch('GenerateRoutes').then(() => {
